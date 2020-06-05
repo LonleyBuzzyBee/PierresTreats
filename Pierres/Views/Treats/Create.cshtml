@@ -1,0 +1,12 @@
+@{
+  Layout = "_Layout";
+}
+@model Pierres.Models.Treat
+<h5>Add a new treat</h5>
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Type)
+  @Html.TextBoxFor(model => model.Type)
+  <input type="submit" value="Add new treat" />
+}
+<p>@Html.ActionLink("Show all treats", "Index")</p>
