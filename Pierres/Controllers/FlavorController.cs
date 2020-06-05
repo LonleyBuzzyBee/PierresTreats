@@ -25,7 +25,7 @@ namespace Pierres.Controllers
 
     public ActionResult Index()
     {
-      List<Flavor> model = _db.Flavors.Include(flavors => flavors.Treat).ToList();
+      List<Flavor> model = _db.Flavors.Include(flavors => flavors.Treats).ToList();
       return View(model);
     }
 
@@ -53,15 +53,15 @@ namespace Pierres.Controllers
       return View(thisFlavor);
     }
     
-   public ActionResult Search( string type)
-    {
-      var thisFlavor = _db.Flavors
+  //  public ActionResult Search( string type)
+  //   {
+  //     var thisFlavor = _db.Flavors
 
-          .Include(flavor => flavor.Treats)
-          .ThenInclude(join => join.Treat)
-          .FirstOrDefault(falvor => flavor.Type == type);
-      return View(thisFlavor);
-    }
+  //         .Include(flavor => flavor.Treats)
+  //         .ThenInclude(join => join.Treat)
+  //         .FirstOrDefault(falvor => flavor.Type == type);
+  //     return View(thisFlavor);
+  //   }
 
     public ActionResult Edit(int id)
     {
