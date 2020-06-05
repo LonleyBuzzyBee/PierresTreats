@@ -5,28 +5,30 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 //identity \/
-// using Microsoft.AspNetCore.Authorization;
-// using Microsoft.AspNetCore.Identity;
-// using System.Threading.Tasks;
-// using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Pierres.Controllers
 {
-  // [Authorize]
+  [Authorize]
   public class FlavorsController : Controller
   {
     private readonly PierresContext _db;
-    // private readonly UserManager<ApplicationUser> _userManager; //identity
-
-    public FlavorsController(PierresContext db)
+    private readonly UserManager<ApplicationUser> _userManager; //identity
+    public FlavorsController(UserManager<ApplicationUser> userManager, PierresContext db)
     {
+      _userManager = userManager;
       _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Flavor> model = _db.Flavors.Include(flavors => flavors.Treats).ToList();
-      return View(model);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id);
+      return View(userFlavors);
     }
 
     public ActionResult Create()
@@ -35,10 +37,17 @@ namespace Pierres.Controllers
       return View();
     }
 
-    [HttpPost]
-    public ActionResult Create(Flavor flavor)
+      [HttpPost]
+    public async Task<ActionResult> Create(Flavor flavor, int TreatId)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      flavor.User = currentUser;
       _db.Flavors.Add(flavor);
+      if (TreatId != 0)
+      {
+          _db.TreatFlavor.Add(new TreatFlavor() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+      }
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
