@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Pierres.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-//identity \/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
@@ -28,6 +28,7 @@ namespace Pierres.Controllers
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       var userFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id);
+      Console.WriteLine(userFlavors);
       return View(userFlavors);
     }
 
@@ -37,7 +38,7 @@ namespace Pierres.Controllers
       return View();
     }
 
-      [HttpPost]
+    [HttpPost]
     public async Task<ActionResult> Create(Flavor flavor, int TreatId)
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -46,7 +47,7 @@ namespace Pierres.Controllers
       _db.Flavors.Add(flavor);
       if (TreatId != 0)
       {
-          _db.TreatFlavor.Add(new TreatFlavor() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+        _db.TreatFlavor.Add(new TreatFlavor() { TreatId = TreatId, FlavorId = flavor.FlavorId });
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
@@ -61,16 +62,17 @@ namespace Pierres.Controllers
           .FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
-    
-  //  public ActionResult Search( string type)
-  //   {
-  //     var thisFlavor = _db.Flavors
 
-  //         .Include(flavor => flavor.Treats)
-  //         .ThenInclude(join => join.Treat)
-  //         .FirstOrDefault(falvor => flavor.Type == type);
-  //     return View(thisFlavor);
-  //   }
+
+//  public ActionResult Search( string type)
+//   {
+//     var thisFlavor = _db.Flavors
+
+//         .Include(flavor => flavor.Treats)
+//         .ThenInclude(join => join.Treat)
+//         .FirstOrDefault(falvor => flavor.Type == type);
+//     return View(thisFlavor);
+//   }
 
     public ActionResult Edit(int id)
     {

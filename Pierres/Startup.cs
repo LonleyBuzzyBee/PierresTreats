@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pierres.Models;
 //new
-// using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace Pierres
 {
@@ -29,23 +29,23 @@ namespace Pierres
       services.AddEntityFrameworkMySql()
         .AddDbContext<PierresContext>(options => options
         .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
-      //new
-      // services.AddIdentity<ApplicationUser, IdentityRole>()
-      // .AddEntityFrameworkStores<PierresContext>()
-      // .AddDefaultTokenProviders();
+      // new
+      services.AddIdentity<ApplicationUser, IdentityRole>()
+      .AddEntityFrameworkStores<PierresContext>()
+      .AddDefaultTokenProviders();
 
-      //new
-      //  services.Configure<IdentityOptions>(options =>
-      //   {
+      // new
+       services.Configure<IdentityOptions>(options =>
+        {
           
-      //     options.Password.RequireDigit = false;
-      //     options.Password.RequiredLength = 0;
-      //     options.Password.RequireLowercase = false;
-      //     options.Password.RequireNonAlphanumeric = false;
-      //     options.Password.RequireUppercase = false;
-      //     options.Password.RequiredUniqueChars = 0;
+          options.Password.RequireDigit = false;
+          options.Password.RequiredLength = 0;
+          options.Password.RequireLowercase = false;
+          options.Password.RequireNonAlphanumeric = false;
+          options.Password.RequireUppercase = false;
+          options.Password.RequiredUniqueChars = 0;
 
-      //   });
+        });
     }
 
     public void Configure(IApplicationBuilder app)
@@ -54,7 +54,7 @@ namespace Pierres
 
       app.UseDeveloperExceptionPage();
       //new
-      // app.UseAuthentication();
+      app.UseAuthentication();
 
       app.UseMvc(routes =>
       {

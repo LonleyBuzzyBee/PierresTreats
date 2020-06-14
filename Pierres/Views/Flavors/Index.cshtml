@@ -2,10 +2,11 @@
   Layout = "_Layout";
 }
 
-@using Pierres.Models
+@using Pierres.Models;
+@using System.Security.Claims
 @model IEnumerable<Pierres.Models.Flavor>
 
-<h1>Books</h1>
+<h1>Books for @User.Identity.Name</h1>
 
 @if (Model.Any())
 {

@@ -1,3 +1,4 @@
+
 namespace Pierres.Models
 {
   public class TreatFlavor
