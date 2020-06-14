@@ -9,8 +9,8 @@ using Pierres.Models;
 namespace Pierres.Migrations
 {
     [DbContext(typeof(PierresContext))]
-    [Migration("20200614033400_addIdentity")]
-    partial class addIdentity
+    [Migration("20200614051629_Authorization")]
+    partial class Authorization
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

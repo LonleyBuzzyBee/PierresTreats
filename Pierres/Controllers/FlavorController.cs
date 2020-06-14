@@ -16,7 +16,7 @@ namespace Pierres.Controllers
   public class FlavorsController : Controller
   {
     private readonly PierresContext _db;
-    private readonly UserManager<ApplicationUser> _userManager; //identity
+    private readonly UserManager<ApplicationUser> _userManager;
     public FlavorsController(UserManager<ApplicationUser> userManager, PierresContext db)
     {
       _userManager = userManager;
@@ -62,17 +62,6 @@ namespace Pierres.Controllers
           .FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
-
-
-//  public ActionResult Search( string type)
-//   {
-//     var thisFlavor = _db.Flavors
-
-//         .Include(flavor => flavor.Treats)
-//         .ThenInclude(join => join.Treat)
-//         .FirstOrDefault(falvor => flavor.Type == type);
-//     return View(thisFlavor);
-//   }
 
     public ActionResult Edit(int id)
     {
