@@ -12,7 +12,6 @@ using System.Security.Claims;
 
 namespace Pierres.Controllers
 {
-  [Authorize]
   public class FlavorsController : Controller
   {
     private readonly PierresContext _db;
@@ -23,32 +22,21 @@ namespace Pierres.Controllers
       _db = db;
     }
 
-    public async Task<ActionResult> Index()
-    {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id);
-      Console.WriteLine(userFlavors);
-      return View(userFlavors);
+      public ActionResult Index()
+      {
+      List<Flavor> model = _db.Flavors.ToList();
+      return View(model);
     }
 
-    public ActionResult Create()
+      public ActionResult Create()
     {
-      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Type");
       return View();
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Flavor flavor, int TreatId)
+    public ActionResult Create(Flavor flavor)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      flavor.User = currentUser;
       _db.Flavors.Add(flavor);
-      if (TreatId != 0)
-      {
-        _db.TreatFlavor.Add(new TreatFlavor() { TreatId = TreatId, FlavorId = flavor.FlavorId });
-      }
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
@@ -64,18 +52,12 @@ namespace Pierres.Controllers
     }
 
 
-//  public ActionResult Search( string type)
-//   {
-//     var thisFlavor = _db.Flavors
 
-//         .Include(flavor => flavor.Treats)
-//         .ThenInclude(join => join.Treat)
-//         .FirstOrDefault(falvor => flavor.Type == type);
-//     return View(thisFlavor);
-//   }
-
-    public ActionResult Edit(int id)
+  [Authorize]
+    public async Task<ActionResult> Edit(int id)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
       var thisFlavor = _db.Flavors.FirstOrDefault(flavors => flavors.FlavorId == id);
       ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Type");
       return View(thisFlavor);
@@ -134,5 +116,6 @@ namespace Pierres.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
   }
 }

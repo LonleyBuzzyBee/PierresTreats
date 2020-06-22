@@ -4,11 +4,14 @@
 
 @model Pierres.Models.Treat
 
-<h2>delete this treat?</h2>
+<div class="box2">
+<h2><em>Delete this treat?</em></h2>
 
-@Html.DisplayNameFor(model => model.Type): @Html.DisplayFor(model => model.Type)
+<h3><strong>@Html.DisplayNameFor(model => model.Type)</strong>: @Html.DisplayFor(model => model.Type)</h3>
 @using (Html.BeginForm())
 {
+    <br>
     <input type="submit" value="Delete" />
 }
-@Html.ActionLink("Back to treats", "Index")
+<p class="home">@Html.ActionLink("Back to treats", "Index")</p>
+</div>

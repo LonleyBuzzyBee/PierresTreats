@@ -2,6 +2,7 @@
   Layout = "_Layout";
 }
 @model Pierres.Models.Treat
+<div class="box2">
 <h5>Add a new treat</h5>
 @using (Html.BeginForm())
 {
@@ -9,4 +10,5 @@
   @Html.TextBoxFor(model => model.Type)
   <input type="submit" value="Add new treat" />
 }
-<p>@Html.ActionLink("Show all treats", "Index")</p>
+<p class="home">@Html.ActionLink("Show all treats", "Index")</p>
+</div>

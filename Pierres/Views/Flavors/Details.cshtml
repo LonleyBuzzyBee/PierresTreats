@@ -4,9 +4,8 @@
 
 @model Pierres.Models.Flavor
 
-<h2>Flavor info</h2>
-<hr />
-<h2>Type</h2>
+<div class="box2">
+<h2><em>Flavor info</em></h2>
 <h3>@Html.DisplayNameFor(model => model.Type): @Html.DisplayFor(model => model.Type)</h3>
 
 @if(@Model.Treats.Count == 0)
@@ -29,6 +28,7 @@ else
   </ul>
 }
 
-<p>@Html.ActionLink("Back to list", "Index")</p>
-<p>@Html.ActionLink("Edit Flavor", "Edit", new { id = Model.FlavorId })</p>
-<p>@Html.ActionLink("Delete Book", "Delete", new { id = Model.FlavorId })</p>
+<p class="home">@Html.ActionLink("Back to list", "Index")</p>
+<p class="home">@Html.ActionLink("Edit Flavor", "Edit", new { id = Model.FlavorId })</p>
+<p class="home">@Html.ActionLink("Delete", "Delete", new { id = Model.FlavorId })</p>
+</div>
