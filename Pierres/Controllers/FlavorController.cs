@@ -15,7 +15,7 @@ namespace Pierres.Controllers
   public class FlavorsController : Controller
   {
     private readonly PierresContext _db;
-    private readonly UserManager<ApplicationUser> _userManager; //identity
+    private readonly UserManager<ApplicationUser> _userManager;
     public FlavorsController(UserManager<ApplicationUser> userManager, PierresContext db)
     {
       _userManager = userManager;
